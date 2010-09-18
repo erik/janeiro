@@ -1,32 +1,32 @@
 grammar Janeiro
 
-  rule start
-    whitespace* expression* whitespace*
+  rule program
+    expression* <Program> 
   end
 
   rule expression
-    message 
+    whitespace* message whitespace* <Expression>
   end
 
   rule message
-    whitespace* symbol whitespace* arguments?
+    whitespace* symbol whitespace* arguments? <Message>
   end
 
   rule arguments
-    ("(" / "[" / "{") (argument ("," argument)* (")" / "]" / "}"))
+    ("(" / "[" / "{") (argument ("," argument)* (")" / "]" / "}")) <ArgumentList>
   end
 
   rule argument
-    whitespace* expression whitespace*
+    whitespace* expression whitespace* <Argument>
   end
 
   rule symbol
-    identifier / number / operator / string
+    identifier / number / string / operator
   end
 
   rule operator
     ":" / "." / "'" / "~" / "!" / "@" / "$" / "%" / "^" / "&" / "*" / "-" / "+" /
-     "/" / "=" / "{" / "}" / "[" / "]" / "|" / "\"" / "<" / ">" / "?"
+     "/" / "=" / "{" / "}" / "[" / "]" / "|" / "<" / ">" / "?"
   end
 
   rule letter
@@ -34,11 +34,11 @@ grammar Janeiro
   end
 
   rule identifier
-    (letter / digit / "_")+
+    (letter / "_") (letter / digit / "_")*
   end
 
   rule string
-    '"' ('\\"' / [^"])* '"'
+    '"' ('\\"' / [^"])* '"' <String>
   end
 
   rule digit
@@ -46,23 +46,15 @@ grammar Janeiro
   end
 
   rule number
-    "-"? (("0" [xX] [a-fA-F0-9]+) / (digit+ ("e" "-"? digit)?)) {
-      def value
-        text_value
-      end
-    }
+    "-"? (("0" [xX] [a-fA-F0-9]+) / (digit+ ("." digit*)? ("e" "-"? digit+)?)) <Number>
   end
 
   rule whitespace
-    space / comment { def value; ''; end }
+    space / comment
   end
- 
+
   rule space
-    [\s]+ {
-      def value
-        ''
-      end
-    }
+    [\s]+
   end
 
   rule separator
@@ -74,13 +66,11 @@ grammar Janeiro
   end 
 
   rule comment
-    ('#' (!newline .)* newline) / ("//" (!newline .)* newline) {
-      def value; ''; end
-    }
+    ('#' (!newline .)* newline) / ("//" (!newline .)* newline)
   end
 
   rule newline
-    "\n" / "\r" / "\r\n" { def value; "\n"; end }
+    "\n" / "\r" / "\r\n"
   end
 end
 

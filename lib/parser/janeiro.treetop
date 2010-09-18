@@ -1,0 +1,86 @@
+grammar Janeiro
+
+  rule start
+    whitespace* expression* whitespace*
+  end
+
+  rule expression
+    message 
+  end
+
+  rule message
+    whitespace* symbol whitespace* arguments?
+  end
+
+  rule arguments
+    ("(" / "[" / "{") (argument ("," argument)* (")" / "]" / "}"))
+  end
+
+  rule argument
+    whitespace* expression whitespace*
+  end
+
+  rule symbol
+    identifier / number / operator / string
+  end
+
+  rule operator
+    ":" / "." / "'" / "~" / "!" / "@" / "$" / "%" / "^" / "&" / "*" / "-" / "+" /
+     "/" / "=" / "{" / "}" / "[" / "]" / "|" / "\"" / "<" / ">" / "?"
+  end
+
+  rule letter
+    [a-zA-Z]
+  end
+
+  rule identifier
+    (letter / digit / "_")+
+  end
+
+  rule string
+    '"' ('\\"' / [^"])* '"'
+  end
+
+  rule digit
+    [0-9]
+  end
+
+  rule number
+    "-"? (("0" [xX] [a-fA-F0-9]+) / (digit+ ("e" "-"? digit)?)) {
+      def value
+        text_value
+      end
+    }
+  end
+
+  rule whitespace
+    space / comment { def value; ''; end }
+  end
+ 
+  rule space
+    [\s]+ {
+      def value
+        ''
+      end
+    }
+  end
+
+  rule separator
+    " " / "\f" / "\t"
+  end
+
+  rule terminator
+    separator* ';' / whitespace*
+  end 
+
+  rule comment
+    ('#' (!newline .)* newline) / ("//" (!newline .)* newline) {
+      def value; ''; end
+    }
+  end
+
+  rule newline
+    "\n" / "\r" / "\r\n" { def value; "\n"; end }
+  end
+end
+

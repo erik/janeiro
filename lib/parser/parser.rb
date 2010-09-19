@@ -54,31 +54,23 @@ module Janeiro
     end
 
     i0, s0 = index, []
-    s1, i1 = [], index
-    loop do
-      r2 = _nt_whitespace
-      if r2
-        s1 << r2
-      else
-        break
-      end
+    r2 = _nt_whitespace
+    if r2
+      r1 = r2
+    else
+      r1 = instantiate_node(SyntaxNode,input, index...index)
     end
-    r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
     s0 << r1
     if r1
       r3 = _nt_message
       s0 << r3
       if r3
-        s4, i4 = [], index
-        loop do
-          r5 = _nt_whitespace
-          if r5
-            s4 << r5
-          else
-            break
-          end
+        r5 = _nt_whitespace
+        if r5
+          r4 = r5
+        else
+          r4 = instantiate_node(SyntaxNode,input, index...index)
         end
-        r4 = instantiate_node(SyntaxNode,input, i4...index, s4)
         s0 << r4
       end
     end
@@ -110,16 +102,12 @@ module Janeiro
     end
 
     i0, s0 = index, []
-    s1, i1 = [], index
-    loop do
-      r2 = _nt_whitespace
-      if r2
-        s1 << r2
-      else
-        break
-      end
+    r2 = _nt_whitespace
+    if r2
+      r1 = r2
+    else
+      r1 = instantiate_node(SyntaxNode,input, index...index)
     end
-    r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
     s0 << r1
     if r1
       i3 = index
@@ -147,16 +135,12 @@ module Janeiro
       end
       s0 << r3
       if r3
-        s8, i8 = [], index
-        loop do
-          r9 = _nt_whitespace
-          if r9
-            s8 << r9
-          else
-            break
-          end
+        r9 = _nt_whitespace
+        if r9
+          r8 = r9
+        else
+          r8 = instantiate_node(SyntaxNode,input, index...index)
         end
-        r8 = instantiate_node(SyntaxNode,input, i8...index, s8)
         s0 << r8
         if r8
           r11 = _nt_arguments
@@ -282,45 +266,6 @@ module Janeiro
         end
         r7 = instantiate_node(SyntaxNode,input, i7...index, s7)
         s5 << r7
-        if r7
-          i11 = index
-          if has_terminal?(")", false, index)
-            r12 = instantiate_node(SyntaxNode,input, index...(index + 1))
-            @index += 1
-          else
-            terminal_parse_failure(")")
-            r12 = nil
-          end
-          if r12
-            r11 = r12
-          else
-            if has_terminal?("]", false, index)
-              r13 = instantiate_node(SyntaxNode,input, index...(index + 1))
-              @index += 1
-            else
-              terminal_parse_failure("]")
-              r13 = nil
-            end
-            if r13
-              r11 = r13
-            else
-              if has_terminal?("}", false, index)
-                r14 = instantiate_node(SyntaxNode,input, index...(index + 1))
-                @index += 1
-              else
-                terminal_parse_failure("}")
-                r14 = nil
-              end
-              if r14
-                r11 = r14
-              else
-                @index = i11
-                r11 = nil
-              end
-            end
-          end
-          s5 << r11
-        end
       end
       if s5.last
         r5 = instantiate_node(SyntaxNode,input, i5...index, s5)
@@ -330,6 +275,45 @@ module Janeiro
         r5 = nil
       end
       s0 << r5
+      if r5
+        i11 = index
+        if has_terminal?(")", false, index)
+          r12 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
+        else
+          terminal_parse_failure(")")
+          r12 = nil
+        end
+        if r12
+          r11 = r12
+        else
+          if has_terminal?("]", false, index)
+            r13 = instantiate_node(SyntaxNode,input, index...(index + 1))
+            @index += 1
+          else
+            terminal_parse_failure("]")
+            r13 = nil
+          end
+          if r13
+            r11 = r13
+          else
+            if has_terminal?("}", false, index)
+              r14 = instantiate_node(SyntaxNode,input, index...(index + 1))
+              @index += 1
+            else
+              terminal_parse_failure("}")
+              r14 = nil
+            end
+            if r14
+              r11 = r14
+            else
+              @index = i11
+              r11 = nil
+            end
+          end
+        end
+        s0 << r11
+      end
     end
     if s0.last
       r0 = instantiate_node(ArgumentList,input, i0...index, s0)
@@ -363,31 +347,23 @@ module Janeiro
     end
 
     i0, s0 = index, []
-    s1, i1 = [], index
-    loop do
-      r2 = _nt_whitespace
-      if r2
-        s1 << r2
-      else
-        break
-      end
+    r2 = _nt_whitespace
+    if r2
+      r1 = r2
+    else
+      r1 = instantiate_node(SyntaxNode,input, index...index)
     end
-    r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
     s0 << r1
     if r1
       r3 = _nt_expression
       s0 << r3
       if r3
-        s4, i4 = [], index
-        loop do
-          r5 = _nt_whitespace
-          if r5
-            s4 << r5
-          else
-            break
-          end
+        r5 = _nt_whitespace
+        if r5
+          r4 = r5
+        else
+          r4 = instantiate_node(SyntaxNode,input, index...index)
         end
-        r4 = instantiate_node(SyntaxNode,input, i4...index, s4)
         s0 << r4
       end
     end
@@ -1177,12 +1153,7 @@ module Janeiro
         break
       end
     end
-    if s0.empty?
-      @index = i0
-      r0 = nil
-    else
-      r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
-    end
+    r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
 
     node_cache[:space][start_index] = r0
 

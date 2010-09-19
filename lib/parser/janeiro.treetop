@@ -5,19 +5,19 @@ grammar Janeiro
   end
  
   rule expression
-    whitespace* message whitespace* <Expression>
+    whitespace? message whitespace? <Expression>
   end
 
   rule message
-    whitespace* (identifier / number / string / operator) whitespace* arguments? <Message>
+    whitespace? (identifier / number / string / operator) whitespace? arguments? <Message>
   end
 
   rule arguments
-    ("(" / "[" / "{") (argument ("," argument)* (")" / "]" / "}")) <ArgumentList>
+    ("(" / "[" / "{") (argument ("," argument)*) (")" / "]" / "}") <ArgumentList>
   end
 
   rule argument
-    whitespace* expression whitespace* <Argument>
+    whitespace? expression whitespace? <Argument>
   end
 
   rule operator
@@ -50,7 +50,7 @@ grammar Janeiro
   end
 
   rule space
-    [\s]+
+    [\s]*
   end
 
   rule separator

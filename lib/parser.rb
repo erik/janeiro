@@ -1,8 +1,8 @@
 require "rubygems"
 require "treetop"
 
-require "parser/nodes.rb"
-require "parser/parser.rb"
+require "parser/nodes"
+require "parser/parser"
 
 module Treetop::Runtime
   class SyntaxNode
@@ -17,15 +17,6 @@ module Janeiro
     @parser ||= JaneiroParser.new
     @parser.parse input
   end
-
-  def self.evaluate(scope, exp)
-    case exp
-
-    when Number
-      return exp.value
-    end
-    exp
-  end    
 end
 
 

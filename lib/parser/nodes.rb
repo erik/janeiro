@@ -26,10 +26,17 @@ module Janeiro
   class Message < Treetop::Runtime::SyntaxNode
     def initialize *args
       super
+      puts elements.inspect
+      @symbol = elements[1]
+      @arguments = elements[2]
     end
 
-    def eval
-      elements[1].eval
+    def eval(scope)
+      if(Janeiro::atomic?(@symbol))
+        @symbol.value
+      else
+        scope[@symbol][*@arguments]
+      end
     end
   end
   

@@ -28,7 +28,12 @@ module Janeiro
         break
       end
     end
-    r0 = instantiate_node(Program,input, i0...index, s0)
+    if s0.empty?
+      @index = i0
+      r0 = nil
+    else
+      r0 = instantiate_node(Program,input, i0...index, s0)
+    end
 
     node_cache[:program][start_index] = r0
 
@@ -96,10 +101,6 @@ module Janeiro
   end
 
   module Message0
-    def symbol
-      elements[1]
-    end
-
   end
 
   def _nt_message
@@ -126,28 +127,50 @@ module Janeiro
     r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
     s0 << r1
     if r1
-      r3 = _nt_symbol
+      i3 = index
+      r4 = _nt_identifier
+      if r4
+        r3 = r4
+      else
+        r5 = _nt_number
+        if r5
+          r3 = r5
+        else
+          r6 = _nt_string
+          if r6
+            r3 = r6
+          else
+            r7 = _nt_operator
+            if r7
+              r3 = r7
+            else
+              @index = i3
+              r3 = nil
+            end
+          end
+        end
+      end
       s0 << r3
       if r3
-        s4, i4 = [], index
+        s8, i8 = [], index
         loop do
-          r5 = _nt_whitespace
-          if r5
-            s4 << r5
+          r9 = _nt_whitespace
+          if r9
+            s8 << r9
           else
             break
           end
         end
-        r4 = instantiate_node(SyntaxNode,input, i4...index, s4)
-        s0 << r4
-        if r4
-          r7 = _nt_arguments
-          if r7
-            r6 = r7
+        r8 = instantiate_node(SyntaxNode,input, i8...index, s8)
+        s0 << r8
+        if r8
+          r11 = _nt_arguments
+          if r11
+            r10 = r11
           else
-            r6 = instantiate_node(SyntaxNode,input, index...index)
+            r10 = instantiate_node(SyntaxNode,input, index...index)
           end
-          s0 << r6
+          s0 << r10
         end
       end
     end
@@ -382,46 +405,6 @@ module Janeiro
     end
 
     node_cache[:argument][start_index] = r0
-
-    r0
-  end
-
-  def _nt_symbol
-    start_index = index
-    if node_cache[:symbol].has_key?(index)
-      cached = node_cache[:symbol][index]
-      if cached
-        cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
-        @index = cached.interval.end
-      end
-      return cached
-    end
-
-    i0 = index
-    r1 = _nt_identifier
-    if r1
-      r0 = r1
-    else
-      r2 = _nt_number
-      if r2
-        r0 = r2
-      else
-        r3 = _nt_string
-        if r3
-          r0 = r3
-        else
-          r4 = _nt_operator
-          if r4
-            r0 = r4
-          else
-            @index = i0
-            r0 = nil
-          end
-        end
-      end
-    end
-
-    node_cache[:symbol][start_index] = r0
 
     r0
   end

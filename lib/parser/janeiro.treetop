@@ -3,13 +3,13 @@ grammar Janeiro
   rule program
     expression* <Program> 
   end
-
+ 
   rule expression
     whitespace* message whitespace* <Expression>
   end
 
   rule message
-    whitespace* symbol whitespace* arguments? <Message>
+    whitespace* (identifier / number / string / operator) whitespace* arguments? <Message>
   end
 
   rule arguments
@@ -18,10 +18,6 @@ grammar Janeiro
 
   rule argument
     whitespace* expression whitespace* <Argument>
-  end
-
-  rule symbol
-    identifier / number / string / operator
   end
 
   rule operator
